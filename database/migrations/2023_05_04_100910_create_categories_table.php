@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('libelle');
+            $table->foreignId('client_id')->references('id')->on('clients');
             $table->timestamps();
         });
     }

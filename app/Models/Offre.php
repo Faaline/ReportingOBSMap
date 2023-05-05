@@ -11,4 +11,12 @@ class Offre extends Model
     protected $fillable=[
         'type'
     ];
+    public function clientoffre()
+    {
+        return $this->hasMany(ClientOffre::class);
+    }
+    public function segmentoffre()
+    {
+        return $this->hasMany(SegmentOffre::class);
+    }
 }

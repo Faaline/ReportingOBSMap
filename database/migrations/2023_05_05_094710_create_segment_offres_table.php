@@ -10,12 +10,13 @@ return new class extends Migration
      * Run the migrations.
      *
      * @return void
-     *
+     */
     public function up()
     {
-        Schema::create('profils', function (Blueprint $table) {
+        Schema::create('segment_offres', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle');
+            $table->foreignId('segment_id')->references('id')->on('segments');
+            $table->foreignId('offre_id')->references('id')->on('offres');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profils');
+        Schema::dropIfExists('segment_offres');
     }
 };

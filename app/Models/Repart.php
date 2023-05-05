@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Repart extends Model
 {
     use HasFactory;
-    protected $fillable=[
-        'libelle'
-    ];
+    public function clientrepart()
+    {
+        return $this->hasMany(ClientRepart::class);
+    }
+    public function communerepart()
+    {
+        return $this->hasMany(CommuneRepart::class);
+    }
+    protected $guarded=[];
 }

@@ -10,12 +10,13 @@ return new class extends Migration
      * Run the migrations.
      *
      * @return void
-     *
+     */
     public function up()
     {
-        Schema::create('profils', function (Blueprint $table) {
+        Schema::create('client_reparts', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle');
+            $table->foreignId('client_id')->references('id')->on('clients');
+            $table->foreignId('repart_id')->references('id')->on('reparts');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profils');
+        Schema::dropIfExists('client_reparts');
     }
 };

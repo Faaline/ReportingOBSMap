@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::apiResources([
+    'communes' => \App\Http\Controllers\CommuneController::class,
+    'reparts' => \App\Http\Controllers\RepartController::class,
+]);

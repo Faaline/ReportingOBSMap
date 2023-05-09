@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('segments', function (Blueprint $table) {
+        Schema::create('fibres', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle');
+            $table->foreignId('offre_id')->references('id')->on('offres');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('segments');
+        Schema::dropIfExists('fibres');
     }
 };

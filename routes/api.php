@@ -20,4 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResources([
     'communes' => \App\Http\Controllers\CommuneController::class,
     'reparts' => \App\Http\Controllers\RepartController::class,
+    //'import'=>[\App\Http\Controllers\ClientController::class, 'reportingImport']
 ]);

@@ -14,7 +14,7 @@ class Client extends Model
 
     public function statut(): BelongsTo
     {
-        return $this->belongsTo(Statut::class,'client-id');
+        return $this->belongsTo(Statut::class);
     }
 
     public function categorie(): BelongsTo
@@ -24,7 +24,7 @@ class Client extends Model
 
     public function segment(): BelongsTo
     {
-        return $this->belongsTo(Segment::class);
+        return $this->belongsTo(Segment::class,);
     }
     public function clientagence()
     {
@@ -41,5 +41,9 @@ class Client extends Model
     public function clientcommune()
     {
         return $this->hasMany(ClientCommune::class);
+    }
+    public function clientadsl()
+    {
+        return $this->hasMany(ClientAdsl::class);
     }
 }

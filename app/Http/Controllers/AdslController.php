@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\ReportingImport;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
-class ClientController extends Controller
+class AdslController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -82,9 +80,5 @@ class ClientController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function reportingImport(){
-        Excel::import(new ReportingImport(), request()->file('fileupload'));
     }
 }

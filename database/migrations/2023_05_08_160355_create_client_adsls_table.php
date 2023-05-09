@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('segments', function (Blueprint $table) {
+        Schema::create('client_adsls', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle');
+            $table->foreignId('client_id')->references('id')->on('clients');
+            $table->foreignId('adsl_id')->references('id')->on('adsls');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('segments');
+        Schema::dropIfExists('client_adsls');
     }
 };

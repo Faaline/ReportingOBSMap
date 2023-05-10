@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Offre;
 use Illuminate\Http\Request;
 
 class OffreController extends Controller
@@ -34,7 +35,14 @@ class OffreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Offre::create(array_merge(
+            [
+                'type'=>strtoupper($request->all()['type']),
+            ]));
+
+        return response()->json([
+            'success'=>'Offre ajoutée avec succes',
+        ],201);
     }
 
     /**

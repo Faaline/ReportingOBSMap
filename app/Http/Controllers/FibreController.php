@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fibre;
 use Illuminate\Http\Request;
 
 class FibreController extends Controller
@@ -34,7 +35,14 @@ class FibreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Fibre::create(array_merge(
+            [
+                'type'=>strtoupper($request->all()['type']),
+            ]));
+        return response()->json([
+            'success'=>'Fibre ajoutée avec succes'
+        ],
+        201);
     }
 
     /**

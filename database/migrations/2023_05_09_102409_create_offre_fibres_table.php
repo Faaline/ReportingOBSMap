@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fibres', function (Blueprint $table) {
+        Schema::create('offre_fibres', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->foreignId('offre_id')->references('id')->on('offres');
+            $table->foreignId('fibre_id')->references('id')->on('fibres');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fibres');
+        Schema::dropIfExists('offre_fibres');
     }
 };

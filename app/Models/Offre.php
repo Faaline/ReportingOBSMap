@@ -12,16 +12,17 @@ class Offre extends Model
     protected $fillable=[
         'type'
     ];
-    public function clientoffre()
+    public function clientoffre():HasMany
     {
         return $this->hasMany(ClientOffre::class);
     }
-    public function segmentoffre()
+    public function segmentoffre():HasMany
     {
         return $this->hasMany(SegmentOffre::class);
     }
-    public function fibres(): HasMany
+    public function offrefibre():HasMany
     {
-        return $this->hasMany(Fibre::class);
+        return $this->hasMany(OffreFibre::class);
     }
+
 }

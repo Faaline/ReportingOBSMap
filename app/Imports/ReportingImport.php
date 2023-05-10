@@ -3,8 +3,6 @@
 namespace App\Imports;
 
 use App\Models\Client;
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -20,26 +18,26 @@ class ReportingImport implements ToModel, WithHeadingRow
     {
         ++self::$rows;
         return new Client([
-            'prenom'=> $client['prenom'],
-            'nom'=> $client['nom'],
-            'contact'=> $client['contact'],
             'ncli'=> $client['ncli'],
             'ndos'=> $client['ndos'],
+            'produit'=> $client['produit'],
             'nd'=> $client['nd'],
-            'login_smm'=> $client['login_smm'],
             'bouquet_tv'=> $client['bouquet_tv'],
+            'service_fal'=> $client['service_fal'],
+            'statut_id'=> $client['statut_id'],
+            'nd_smm'=> $client['nd_smm'],
+            'login_smm'=> $client['login_smm'],
+            'code_por'=> $client['code_por'],
+            'date_msv'=> $client['date_msv'],
+            'datms_ac'=> $client['datms_ac'],
             'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
-            'prenom'=> $client['prenom'],
+            'nom'=> $client['nom'],
+            'categorie_id'=> $client['categorie_id'],
+            'conctact_mob'=> $client['conctact_mob'],
+            'contact'=> $client['contact_email'],
+            'segment_id'=> $client['segment_id'],
+            'seg'=> $client['seg'],
+            'reseau_bis'=> $client['reseau_bis'],
         ]);
 
     }

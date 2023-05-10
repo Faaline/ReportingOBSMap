@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Segment;
 use Illuminate\Http\Request;
 
 class SegmentController extends Controller
@@ -34,7 +35,14 @@ class SegmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Segment::create(array_merge(
+            [
+                'libelle'=>strtoupper($request->all()['libelle']),
+            ]));
+
+        return response()->json([
+            'success'=>'Segment ajoutée avec succes',
+        ],201);
     }
 
     /**

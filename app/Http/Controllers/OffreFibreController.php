@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Agence;
 use Illuminate\Http\Request;
 
-class AgenceController extends Controller
+class OffreFibreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,14 +34,7 @@ class AgenceController extends Controller
      */
     public function store(Request $request)
     {
-        Agence::create(array_merge(
-            [
-                'libelle'=>strtoupper($request->all()['libelle']),
-            ]));
-
-        return response()->json([
-            'success'=>'Agence ajoutée avec succes',
-        ],201);
+        //
     }
 
     /**

@@ -20,5 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResources([
     'communes' => \App\Http\Controllers\CommuneController::class,
     'reparts' => \App\Http\Controllers\RepartController::class,
+    'segments' => \App\Http\Controllers\SegmentController::class,
+    'offres' => \App\Http\Controllers\OffreController::class,
+    'agences' => \App\Http\Controllers\AgenceController::class,
+    'fibres' => \App\Http\Controllers\FibreController::class,
+
+
+
     //'import'=>[\App\Http\Controllers\ClientController::class, 'reportingImport']
 ]);

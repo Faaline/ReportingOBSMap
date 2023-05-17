@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fibre;
+use App\Models\SegmentMarche;
 use Illuminate\Http\Request;
 
-class FibreController extends Controller
+class SegmentMarcheController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,40 @@ class FibreController extends Controller
      */
     public function index()
     {
-        $fibre= Fibre::orderBy('created_at','desc')->paginate(10);
-        return response()->json($fibre,200);
+        //
+    }
+
+    public function insertMultiple()
+    {
+        $data = [
+            [
+                'libelle' => 'SONATEL',
+            ],
+            [
+                'libelle' => 'SOHO',
+            ],
+            [
+                'libelle' => 'PARTICULIER',
+            ],
+            [
+                'libelle' => 'PME-PMI',
+            ],
+            [
+                'libelle' => 'ETAT',
+            ],
+            [
+                'libelle' => 'DVEI',
+            ],
+            [
+                'libelle' => 'AUTRE',
+            ],
+
+            // Ajoutez les autres lignes à insérer ici
+        ];
+
+       SegmentMarche::insert($data);
+
+        // Autres étapes ou réponse de succès
     }
 
     /**
@@ -36,14 +68,7 @@ class FibreController extends Controller
      */
     public function store(Request $request)
     {
-        Fibre::create(array_merge(
-            [
-                'type'=>strtoupper($request->all()['type']),
-            ]));
-        return response()->json([
-            'success'=>'Fibre ajoutée avec succes'
-        ],
-        201);
+        //
     }
 
     /**

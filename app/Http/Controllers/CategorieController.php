@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use Illuminate\Http\Request;
 
 class CategorieController extends Controller
@@ -13,7 +14,8 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        //
+        $categorie= Categorie::orderBy('created_at','desc')->paginate(10);
+        return response()->json($categorie,200);
     }
 
     /**
@@ -34,7 +36,14 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Categorie::create(array_merge(
+            [
+                'libelle'=>strtoupper($request->all()['libelle']),
+            ]));
+
+        return response()->json([
+            'success'=>'Categorie ajoute avec succes',
+        ],201);
     }
 
     /**

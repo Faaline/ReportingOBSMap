@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SegmentOffre;
 use Illuminate\Http\Request;
 
 class SegmentOffreController extends Controller
@@ -35,6 +36,28 @@ class SegmentOffreController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function storeMultiple()
+    {
+        $segment = 6; // ID de l'offre que vous souhaitez associer
+        $offreIds = [8, 15]; // Tableau d'IDs de fibres à associer
+
+        $segmentOffre = [];
+        $dateTime=new \DateTime();
+
+        foreach ($offreIds as $offreId) {
+            $segmentOffre[] = [
+                'segment_id' => $segment,
+                'offre_id' => $offreId,
+                'created_at'=>$dateTime,
+                'updated_at'=>$dateTime
+            ];
+        }
+        //dd($segmentOffre);
+        SegmentOffre::insert($segmentOffre);
+
+        // Autres étapes ou réponse de succès
     }
 
     /**

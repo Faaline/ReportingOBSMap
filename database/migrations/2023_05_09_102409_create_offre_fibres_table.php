@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('offre_fibres', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('offre_id')->references('id')->on('offres');
-            $table->foreignId('fibre_id')->references('id')->on('fibres');
+            $table->foreignId('offre_id')->references('id')->on('offres')->onDelete('cascade');
+            $table->foreignId('fibre_id')->references('id')->on('fibres')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('segment_offres', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('segment_id')->references('id')->on('segments');
-            $table->foreignId('offre_id')->references('id')->on('offres');
+            $table->foreignId('segment_id')->references('id')->on('segments')->onDelete('cascade');
+            $table->foreignId('offre_id')->references('id')->on('offres')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -14,7 +14,8 @@ class AgenceController extends Controller
      */
     public function index()
     {
-        //
+        $agence= Agence::orderBy('created_at','desc')->paginate(10);
+        return response()->json($agence,200);
     }
 
     /**

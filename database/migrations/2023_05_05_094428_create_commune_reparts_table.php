@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('commune_reparts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('commune_id')->references('id')->on('communes');
-            $table->foreignId('repart_id')->references('id')->on('reparts');
+            $table->foreignId('commune_id')->references('id')->on('communes')->onDelete('cascade');
+            $table->foreignId('repart_id')->references('id')->on('reparts')->onDelete('cascade');
             $table->timestamps();
         });
     }

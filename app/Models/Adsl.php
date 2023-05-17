@@ -9,7 +9,11 @@ class Adsl extends Model
 {
     use HasFactory;
     public function clientadsl()
+
+
     {
         return $this->hasMany(ClientAdsl::class);
     }
+
+    protected $guarded=[];
 }

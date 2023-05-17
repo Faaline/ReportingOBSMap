@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('client_offres', function (Blueprint $table) {
+        Schema::create('segment_marches', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreignId('offre_id')->references('id')->on('offres')->onDelete('cascade');
+            $table->string('libelle');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_offres');
+        Schema::dropIfExists('segment_marches');
     }
 };

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OffreFibre;
 use Illuminate\Http\Request;
 
 class OffreFibreController extends Controller
@@ -34,7 +35,35 @@ class OffreFibreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        OffreFibre::create(array_merge([
+            'offre_id'=>$request->all()['offre_id'],
+            'fibre_id'=>$request->all()['fibre_id'],
+        ]));
+        return response()->json([
+            'succes'=>'cree avec succes'
+        ],201);
+    }
+
+    public function storeMultiple()
+    {
+        $offreId = 6; // ID de l'offre que vous souhaitez associer
+        $fibresIds = [8, 15]; // Tableau d'IDs de fibres à associer
+
+        $offreFibres = [];
+        $dateTime=new \DateTime();
+
+        foreach ($fibresIds as $fibreId) {
+            $offreFibres[] = [
+                'offre_id' => $offreId,
+                'fibre_id' => $fibreId,
+                'created_at'=>$dateTime,
+                'updated_at'=>$dateTime
+            ];
+        }
+        //dd($offreFibres);
+        OffreFibre::insert($offreFibres);
+
+        // Autres étapes ou réponse de succès
     }
 
     /**

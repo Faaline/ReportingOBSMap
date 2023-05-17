@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Statut;
 use Illuminate\Http\Request;
 
 class StatutController extends Controller
@@ -13,7 +14,8 @@ class StatutController extends Controller
      */
     public function index()
     {
-        //
+        $statut= Statut::orderBy('created_at','desc')->paginate(10);
+        return response()->json($statut,200);
     }
 
     /**
@@ -34,7 +36,14 @@ class StatutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Statut::create(array_merge(
+            [
+                'libelle'=>strtoupper($request->all()['libelle']),
+            ]));
+
+        return response()->json([
+            'success'=>'Statut ajoutée avec succes',
+        ],201);
     }
 
     /**

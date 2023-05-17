@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adsl;
 use Illuminate\Http\Request;
 
 class AdslController extends Controller
@@ -13,7 +14,8 @@ class AdslController extends Controller
      */
     public function index()
     {
-        //
+        $adsl= Adsl::orderBy('created_at','desc')->paginate(10);
+        return response()->json($adsl,200);
     }
 
     /**
@@ -34,8 +36,14 @@ class AdslController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        Adsl::create(array_merge(
+            [
+                'type'=>strtoupper($request->all()['type']),
+            ]));
+
+        return response()->json([
+            'success'=>'adsl ajoute avec succes',
+        ],201);    }
 
     /**
      * Display the specified resource.

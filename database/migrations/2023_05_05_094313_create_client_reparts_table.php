@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('client_reparts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->references('id')->on('clients');
-            $table->foreignId('repart_id')->references('id')->on('reparts');
+            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreignId('repart_id')->references('id')->on('reparts')->onDelete('cascade');
             $table->timestamps();
         });
     }

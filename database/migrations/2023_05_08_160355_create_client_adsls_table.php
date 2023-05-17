@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('client_adsls', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->references('id')->on('clients');
-            $table->foreignId('adsl_id')->references('id')->on('adsls');
+            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreignId('adsl_id')->references('id')->on('adsls')->onDelete('cascade');
             $table->timestamps();
         });
     }

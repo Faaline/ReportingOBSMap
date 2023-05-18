@@ -34,4 +34,6 @@ Route::post('import',[\App\Http\Controllers\ClientController::class, 'reportingI
 Route::post('/offre-fibre/store-multiple', [OffreFibreController::class, 'storeMultiple']);
 Route::post('/segmentmarche/insert-multiple', [\App\Http\Controllers\SegmentMarcheController::class, 'insertMultiple']);
 Route::post('/segment/insert-multiple', [\App\Http\Controllers\SegmentController::class, 'insertMultiple']);
+Route::post('/commune/insert-multiple', [\App\Http\Controllers\CommuneController::class, 'insertMultiple']);
+Route::post('/repart/insert-multiple', [\App\Http\Controllers\RepartController::class, 'insertMultiple']);
 

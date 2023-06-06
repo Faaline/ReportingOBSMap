@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SegmentOffre;
+use App\Models\AccesReseau;
 use Illuminate\Http\Request;
 
-class SegmentOffreController extends Controller
+class AccesReseauController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,29 +35,39 @@ class SegmentOffreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AccesReseau::create(array_merge(
+            [
+                'type'=>strtoupper($request->all()['type']),
+            ]));
+
+        return response()->json([
+            'success'=>'Acces reseau ajoutée avec succes',
+        ],201);
     }
 
-    public function storeMultiple()
-    {
-        $segment = 6; // ID de l'offre que vous souhaitez associer
-        $offreIds = [8, 15]; // Tableau d'IDs de fibres à associer
-
-        $segmentOffre = [];
-        $dateTime=new \DateTime();
-
-        foreach ($offreIds as $offreId) {
-            $segmentOffre[] = [
-                'segment_id' => $segment,
-                'offre_id' => $offreId,
-                'created_at'=>$dateTime,
-                'updated_at'=>$dateTime
-            ];
-        }
-        //dd($segmentOffre);
-        SegmentOffre::insert($segmentOffre);
-
-        // Autres étapes ou réponse de succès
+    public function insertMultiple(){
+        $data=[
+            [
+                'libelle'=>'Fibre Mega Plus'
+            ],[
+                'libelle'=>'Fibre Off. Intense_Domino4G_15Go Bloque'
+            ],[
+                'libelle'=>'La Ligne_Grand Public'
+            ],[
+                'libelle'=>'Fibre_Mega'
+            ],[
+                'libelle'=>'Fibre Off. Intense_Domino4G_15Go Ouvert'
+            ],[
+                'libelle'=>'Fibre Office Bloque'
+            ],[
+                'libelle'=>'Fibre Office Intense_Flybox_20Go_Bloque'
+            ],[
+                'libelle'=>'OFFRE HOME'
+            ],[
+                'libelle'=>'Fibre Office Intense Bloque'
+            ]
+        ];
+        AccesReseau::insert($data);
     }
 
     /**

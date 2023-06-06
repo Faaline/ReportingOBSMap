@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('communes', function (Blueprint $table) {
+        Schema::create('voix_fixes', function (Blueprint $table) {
             $table->id();
             $table->string('libelle')->unique();
+            $table->foreignId('acces_reseau_id')->references('id')->on('acces_reseaus')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('communes');
+        Schema::dropIfExists('voix_fixes');
     }
 };

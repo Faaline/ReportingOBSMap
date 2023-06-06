@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('communes', function (Blueprint $table) {
+        Schema::create('segment_segment_marches', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle')->unique();
+            $table->foreignId('segment_id')->references('id')->on('segments')->onDelete('cascade');
+            $table->foreignId('segment_marche_id')->references('id')->on('segment_marches')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('communes');
+        Schema::dropIfExists('segment_segment_marches');
     }
 };

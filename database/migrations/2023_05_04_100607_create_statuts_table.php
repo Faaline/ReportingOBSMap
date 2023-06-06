@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('statuts', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle');
+            $table->string('libelle')->unique();
             $table->timestamps();
         });
     }

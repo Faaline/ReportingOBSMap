@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Imports\ReportingImport;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -15,7 +16,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        $clients=Client::with(['categorie','segment','statut'])->orderBy('created_at','desc')->paginate(10);
+        return response()->json($clients,200);
     }
 
     /**

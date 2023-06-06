@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class SegmentOffre extends Model
+class SegmentSegmentMarche extends Model
 {
     use HasFactory;
     public function segment(): BelongsTo

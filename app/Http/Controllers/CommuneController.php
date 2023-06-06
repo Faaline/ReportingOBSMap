@@ -199,8 +199,6 @@ class CommuneController extends Controller
             ],[
                 'libelle' => 'RUFISQUE ',
             ],[
-                'libelle' => 'PIKINE ',
-            ],[
                 'libelle' => 'RUFUSQUE_DIAMNIADIO  ',
             ],[
                 'libelle' => 'SAINT LOUIS ',
@@ -245,7 +243,9 @@ class CommuneController extends Controller
             ],[
                 'libelle' => 'ZONE INDUSTRIELLE',
             ],[
-                'libelle' => 'ZONE PORTUAIRE  ',
+                'libelle' => 'ZONE PORTUAIRE',
+            ],[
+                'libelle' => 'BOPP  ',
             ],
 
             // Ajoutez les autres lignes à insérer ici

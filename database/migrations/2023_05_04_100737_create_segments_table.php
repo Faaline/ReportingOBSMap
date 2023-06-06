@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('segments', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle');
+            $table->string('libelle')->unique();
             $table->foreignId('segmentmarche_id')->references('id')->on('segment_marches');
             $table->timestamps();
         });

@@ -226,6 +226,8 @@ class RepartController extends Controller
                 'libelle' => 'STL',
             ],[
                 'libelle' => 'NGL',
+            ],[
+                'libelle' => 'O_RUF_7',
             ],
 
             // Ajoutez les autres lignes à insérer ici

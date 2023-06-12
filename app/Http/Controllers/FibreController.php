@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fibre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FibreController extends Controller
 {
@@ -15,7 +16,9 @@ class FibreController extends Controller
     public function index()
     {
         $fibre= Fibre::orderBy('created_at','desc')->paginate(10);
+        //$count = DB::table('fibres')->count();
         return response()->json($fibre,200);
+        //dd($count);
     }
 
     /**

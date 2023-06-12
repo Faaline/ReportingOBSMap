@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SegmentMarche extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    public function segments(): HasMany
+    public function segment(): BelongsTo
     {
-        return $this->hasMany(Segment::class,);
+        return $this->belongsTo(Segment::class,);
     }
 }

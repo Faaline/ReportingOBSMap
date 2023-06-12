@@ -43,4 +43,5 @@ Route::post('/segment/insert-multiple', [\App\Http\Controllers\SegmentController
 Route::post('/commune/insert-multiple', [\App\Http\Controllers\CommuneController::class, 'insertMultiple']);
 Route::post('/repart/insert-multiple', [\App\Http\Controllers\RepartController::class, 'insertMultiple']);
 Route::post('/acces-reseau/insert-multiple', [\App\Http\Controllers\AccesReseauController::class, 'insertMultiple']);
+Route::get('/client/search', [\App\Http\Controllers\ClientController::class, 'searchClient']);
 

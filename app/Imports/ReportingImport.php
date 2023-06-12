@@ -38,7 +38,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
-    class ReportingImport implements ToModel, WithHeadingRow, WithChunkReading, WithBatchInserts
+class ReportingImport implements ToModel, WithHeadingRow, WithChunkReading, WithBatchInserts
 {
     private static int $rows = 0;
     /**
@@ -50,195 +50,157 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
     private function getOrCreateModel($modelClass, $column, $value)
     {
-        $model = $modelClass::where($column, $value)->first();
-        //dd($model[$column]);
-         if($model === null){
-             $model = $modelClass::firstOrCreate([
-                 $column => '',
-             ]);
-         }
-         if(!$model){
-             $model = $modelClass::firstOrCreate([
-                 $column => $value,
-             ]);
-         }
-        return $model;
+        if ($value === null){
+            return ;
+        }else {
+            $model = $modelClass::where($column, $value)->first();
+            if(!$model){
+                $model = $modelClass::firstOrCreate([
+                    $column => $value,
+                ]);
+            }
+            return $model;
+        }
+
+
     }
-    private function getOrCreateModel2($modelClass, $column1,$value1, $column2,$value2)
+
+    private function getOrCreateModel2($modelClass, $column1, $value1, $column2, $value2)
     {
+        if ($value1 === null || $value2 === null) {
+            return null;
+        }
+
         $model = $modelClass::where($column1, $value1)->first();
-        //dd($model);
-         if($model === null){
-             $model = $modelClass::firstOrCreate([
-                 $column1 => '',
-                 $column2 => $value2
-             ]);
-         }
-         if(!$model){
-             $model = $modelClass::firstOrCreate([
-                 $column1 => $value1,
-                 $column1 => $value2
-             ]);
-         }
+        if (!$model) {
+            $model = $modelClass::firstOrCreate([
+                $column1 => $value1,
+                $column2 => $value2
+            ]);
+        }
+
         return $model;
     }
+
+    private function insertIntoAssociationTable($modelClass, $column1, $column2, $value1, $value2)
+    {
+        // Vérifier si l'une des valeurs est null
+        if ($value1 === null || $value2 === null) {
+            // Une des valeurs est null, éviter l'insertion
+            return;
+        }
+
+        // Vérifier si une entrée similaire existe déjà
+        $existingEntry = $modelClass::where($column1, $value1)
+            ->where($column2, $value2)
+            ->first();
+
+        if ($existingEntry) {
+            // Une entrée similaire existe déjà, éviter l'insertion
+            return $existingEntry;
+        }
+        // Créer une nouvelle instance du modèle d'association
+        $associationModel = new $modelClass();
+
+        // Définir les valeurs des colonnes
+        $associationModel->$column1 = $value1;
+        $associationModel->$column2 = $value2;
+
+        // Enregistrer l'entrée dans la table d'association
+        $associationModel->save();
+        //dd($associationModel);
+
+    }
+
     public function model(array $client)
     {
-        $client = array_filter($client, function ($key) {
-            return !is_int($key) || $key < 26 || $key > 45;
-        }, ARRAY_FILTER_USE_KEY);
-        // Récupérer la valeur de date sous forme de nombre
-        $dateMsvNumeric = $client['date_msv'];
-        // Convertir le nombre en date PHP valide
-        $dateMsv = Carbon::createFromFormat('d/m/y', $dateMsvNumeric)->format('y/m/d');
-        //dd($dateMsv->date);
-        $dateMsAcNumeric = $client['datms_ac'];
-        // Convertir le nombre en date PHP valide
-        $dateMsAc = Carbon::createFromFormat('d/m/y', $dateMsvNumeric)->format('Y-m-d');
+        $offre = $this->getOrCreateModel(Offre::class, 'type', $client['offre_fibre']);
         $statut = $this->getOrCreateModel(Statut::class, 'libelle', $client['statut']);
         $adsl = $this->getOrCreateModel(Adsl::class, 'type', $client['adsl']);
-        $offre = $this->getOrCreateModel(Offre::class, 'type', $client['offre_fibre']);
-        //dd($offre);
         $commune = $this->getOrCreateModel(Commune::class, 'libelle', $client['commune']);
         $repart = $this->getOrCreateModel(Repart::class, 'libelle', $client['repart']);
         $agence = $this->getOrCreateModel(Agence::class, 'libelle', $client['agence']);
         $accesReseau = $this->getOrCreateModel(AccesReseau::class, 'libelle', $client['acces_reseau']);
+        $segmentMarche = $this->getOrCreateModel(SegmentMarche::class, 'libelle', $client['segment_marche']);
         $offreAdsl = $this->getOrCreateModel(OffreAdsl::class, 'type', $client['offre_adsl']);
         $categorie = $this->getOrCreateModel(Categorie::class, 'libelle', $client['categorie']);
         $fibre = $this->getOrCreateModel(Fibre::class, 'type', $client['fibre']);
-
-        //dd($client['offre_adsl']);
-        $segmentMarche = $this->getOrCreateModel(SegmentMarche::class, 'libelle', $client['segment_marche']);
-        //dd($segmentMarche);
-        $segment = new Segment();
-        $segment->libelle = $client['segment'];
-        $segment->segmentmarche_id = $segmentMarche->id;
-        $segment->save();
-
-        //dd($client);
-
-        //$segmentMarche = $this->getOrCreateModel(SegmentMarche::class, 'libelle', $client['segment_marche']);
-        $voixfixe = $this->getOrCreateModel2(VoixFixe::class, 'libelle', $client['voix_fixe'], 'acces_reseau_id', $accesReseau->id);
-        //dd($voixfixe->libelle);
-        //$voixfixe = new VoixFixe();
-        //$voixfixe->libelle = $client['voix_fixe'];
-        //dd($voixfixe);
-        //$voixfixe->acces_reseau_id = $accesReseau->id;
-        $voixfixe->save();
-
-        $offreCell = $client['offre_fibre'];
-        $spreadsheet = IOFactory::load(request()->file('fileupload'));
-        $worksheet = $spreadsheet->getActiveSheet();
-
-        // Extract the first cell from the range
-        preg_match('/[A-Z]+\d+/', $offreCell, $matches);
-        //$cell = $matches[0];
-
-        //$offreValue = $worksheet->getCell($cell)->getCalculatedValue();
-
-        // Retrieve the corresponding Offre based on the Fibre association
-        //$fibre = Fibre::where('type', $offreValue)->first();
-        ++self::$rows;
-        $client = new Client([
-            'ncli'=> $client['ncli'],
-            'ndos'=> $client['ndos'],
-            'produit'=> $client['produit'],
-            'nd'=> $client['nd'],
-            'bouquet_tv'=> $client['bouquet_tv'],
-            'service_fal'=> $client['service_fal'],
-            'statut_id'=> $statut->id,
-            'nd_smm'=> $client['nd_smm'],
-            'login_smm'=> $client['login_smm'],
-            'code_por'=> $client['code_por'],
-            'date_msv'=> $dateMsv,
-            'datms_ac'=> $dateMsAc,
-            'prenom'=> $client['prenom'],
-            'nom'=> $client['nom'],
-            'categorie_id' => $categorie->id,
-            'contact_mob' => $client['contact_mob'],
-            'contact_email' => $client['contact_email'],
-            'segment_id' => $segment->id,
-        ]);
-
-        $client->save();
-
-        //insertion dans ClientOffre
-        $clientOffre = new ClientOffre([
-            'client_id' => $client->id,
-            'offre_id' => $offre->id
-        ]);
-        // Enregistrer l'entrée dans la table d'association
-        $clientOffre->save();
-        //dd($offreId);
-
-         //insertion dans ClientAdsl
-        $clientAdsl = new ClientAdsl([
-            'client_id' => $client->id,
-            'adsl_id' => $adsl->id
-        ]);
-        // Enregistrer l'entrée dans la table d'association
-        $clientAdsl->save();
-
-        //insertion dans ClientRepart
-        $clientRepart = new ClientRepart([
-            'client_id' => $client->id,
-            'repart_id' => $repart->id
-        ]);
-        // Enregistrer l'entrée dans la table d'association
-        $clientRepart->save();
+        $voixFixe = $this->getOrCreateModel2(VoixFixe::class, 'libelle', $client['voix_fixe'], 'acces_reseau_id', $accesReseau->id);
 
 
-        //insertion dans ClientCommune
-        $clientCommune = new ClientCommune([
-            'client_id' => $client->id,
-            'commune_id' => $commune->id
-        ]);
-        // Enregistrer l'entrée dans la table d'association
-        $clientCommune->save();
+        DB::transaction(function () use ($client, $offre, $statut, $adsl, $commune, $repart, $agence, $accesReseau, $segmentMarche, $offreAdsl, $categorie, $fibre, $voixFixe) {
+            $client = array_filter($client, function ($key) {
+                return !is_int($key) || $key < 26 || $key > 45;
+            }, ARRAY_FILTER_USE_KEY);
 
-        //insertion dans ClientAgence
-        $clientAgence = new ClientAgence([
-            'client_id' => $client->id,
-            'agence_id' => $agence->id
-        ]);
-        // Enregistrer l'entrée dans la table d'association
-        $clientAgence->save();
+            // Récupérer la valeur de date sous forme de nombre
+            $dateMsvNumeric = $client['date_msv'];
+            // Convertir le nombre en date PHP valide
+            $dateMsv = Carbon::createFromFormat('d/m/y', $dateMsvNumeric)->format('y/m/d');
+            // Convertir le nombre en date PHP valide
+            $dateMsAc = Carbon::createFromFormat('d/m/y', $dateMsvNumeric)->format('Y-m-d');
 
-        //insertion dans OffreFibre
-        $offreFibre = new OffreFibre([
-            'offre_id' => $offre->id,
-            'fibre_id' => $fibre->id
-        ]);
-        // Enregistrer l'entrée dans la table d'association
-        $offreFibre->save();
+            $this->insertIntoAssociationTable(Segment::class, 'libelle', 'segmentmarche_id', $client['segment'], $segmentMarche->id);
 
-        //insertion dans AccesReseauFibre
-        $accesReseauFibre = new AccesReseauFibre([
-            'acces_reseau_id' => $accesReseau->id,
-            'fibre_id' => $fibre->id
-        ]);
-        // Enregistrer l'entrée dans la table d'association
-        $accesReseauFibre->save();
+            if($voixFixe != null){
 
-        //insertion dans CommuneRepart
-        $communeRepart = new CommuneRepart([
-            'commune_id' => $commune->id,
-            'repart_id' => $repart->id
-        ]);
-        // Enregistrer l'entrée dans la table d'association
-        $communeRepart->save();
+                $voixFixe->save();
+            }
 
-        //insertion dans OffreAdslAdsl
-        $OffreAdslAdsl = new OffreAdslAdsl([
-            'offre_adsl_id' => $offreAdsl->id,
-            'adsl_id' => $adsl->id
-        ]);
-        // Enregistrer l'entrée dans la table d'association
-        $OffreAdslAdsl->save();
+            $segment = $this->insertIntoAssociationTable(Segment::class, 'libelle', 'segmentmarche_id', $client['segment'], $segmentMarche->id);
+
+            $client = new Client([
+                'ncli' => $client['ncli'],
+                'ndos' => $client['ndos'],
+                'produit' => $client['produit'],
+                'nd' => $client['nd'],
+                'bouquet_tv' => $client['bouquet_tv'],
+                'service_fal' => $client['service_fal'],
+                'statut_id' => $statut->id,
+                'nd_smm' => $client['nd_smm'],
+                'login_smm' => $client['login_smm'],
+                'code_por' => $client['code_por'],
+                'date_msv' => $dateMsv,
+                'datms_ac' => $dateMsAc,
+                'prenom' => $client['prenom'],
+                'nom' => $client['nom'],
+                'categorie_id' => $categorie->id,
+                'contact_mob' => $client['contact_mob'],
+                'contact_email' => $client['contact_email'],
+                'segment_id' =>$segment->id,
+            ]);
+
+            $client->save();
+
+            if ($offre != null) {
+                $this->insertIntoAssociationTable(ClientOffre::class, 'client_id', 'offre_id', $client->id, $offre->id);
+                $this->insertIntoAssociationTable(OffreFibre::class, 'offre_id', 'fibre_id', $offre->id, $fibre->id);
+            }
+
+            if ($fibre != null) {
+                $this->insertIntoAssociationTable(AccesReseauFibre::class, 'acces_reseau_id', 'fibre_id', $accesReseau->id, $fibre->id);
+            }
+
+            if ($adsl != null) {
+                $this->insertIntoAssociationTable(ClientAdsl::class, 'client_id', 'adsl_id', $client->id, $adsl->id);
+            }
+
+            if ($offreAdsl != null && $adsl != null) {
+                $this->insertIntoAssociationTable(OffreAdslAdsl::class, 'offre_adsl_id', 'adsl_id', $offreAdsl->id, $adsl->id);
+            }
+            if ($repart != null && $commune != null){
+                $this->insertIntoAssociationTable(CommuneRepart::class, 'commune_id', 'repart_id', $commune->id, $repart->id);
+            }
+            if ($repart != null){
+                $this->insertIntoAssociationTable(ClientRepart::class, 'client_id', 'repart_id', $client->id, $repart->id);
+            }
+            if($commune != null){
+                $this->insertIntoAssociationTable(ClientCommune::class, 'client_id', 'commune_id', $client->id, $commune->id);
+            }
+            $this->insertIntoAssociationTable(ClientAgence::class, 'client_id', 'agence_id', $client->id, $agence->id);
+        });
 
     }
-
-
     public function getRowCount(): int
     {
         return self::$rows;

@@ -87,6 +87,52 @@ class ClientController extends Controller
     }
 
     public function reportingImport(){
-        Excel::import(new ReportingImport(), request()->file('fileupload'));
+        $reportingImport = new ReportingImport();
+        Excel::import($reportingImport, request()->file('fileupload'));
+        $nombre_de_ligne = $reportingImport ? $reportingImport->getRowCount() : 0;
+        //dd($nombre_de_ligne);
     }
+
+    public function searchClient(Request $request)
+    {
+        $ndos = $request->input('ndos');
+        $statut = $request->input('statut_id');
+        $segment = $request->input('segment_id');
+        $categorie = $request->input('categorie_id');
+        $ncli = $request->input('ncli');
+
+        $clients = Client::with(['categorie','segment','statut'])
+            ->when($ndos, function ($query, $ndos) {
+                return $query->where('ndos', $ndos);
+            })
+            ->when($statut, function ($query, $statut) {
+                return $query->where('statut_id', $statut);
+            })
+            ->when($segment, function ($query, $segment) {
+                return $query->where('segment_id', $segment);
+            })
+            ->when($categorie, function ($query, $categorie) {
+                return $query->where('categorie_id', $categorie);
+            })
+            ->when($ncli, function ($query, $ncli) {
+                return $query->where('ncli', $ncli);
+            });
+            $perPage = 10;
+            $page = $request->input('page', 1);
+            $total = $clients->count();
+            $result = $clients->offset(($page - 1) * $perPage)->limit($perPage)
+            ->get();
+
+        return response()->json([$clients,
+            'message' => 'Résultat de la recheche ...',
+            'data' => $result,
+            'total' => $total,
+            'page' => $page,
+            'last_page' => ceil($total / $perPage)
+        ]);
+        // Faites ce que vous voulez avec les résultats de la requête filtrée (par exemple, les retourner à la vue)
+        //return view('clients.index', ['clients' => $clients]);
+    }
+
+
 }

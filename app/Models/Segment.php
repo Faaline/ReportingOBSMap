@@ -21,8 +21,8 @@ class Segment extends Model
     {
         return $this->hasMany(SegmentSegmentMarche::class);
     }
-    public function segmentmarche(): BelongsTo
+    public function segmentmarches(): HasMany
     {
-        return $this->belongsTo(SegmentMarche::class,);
+        return $this->hasMany(SegmentMarche::class,);
     }
 }

@@ -9,14 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ClientOffre extends Model
 {
     use HasFactory;
-    public function client(): BelongsTo
-    {
-        return $this->belongsTo(Client::class);
-    }
-    public function offre(): BelongsTo
-    {
-        return $this->belongsTo(Offre::class);
-    }
     protected $guarded=[];
 }
 

@@ -10,11 +10,4 @@ class OffreFibre extends Model
 {
     use HasFactory;
     protected $guarded;
-
-    public function offre():BelongsTo {
-        return $this->belongsTo(Offre::class);
-    }
-    public function fibre(): BelongsTo {
-        return $this->belongsTo(Fibre::class);
-    }
 }

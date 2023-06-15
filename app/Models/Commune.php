@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Commune extends Model
 {
     use HasFactory;
-    public function communerepart()
+    public function reparts()
     {
-        return $this->hasMany(CommuneRepart::class);
+        return $this->belongsToMany(Repart::class);
     }
-    public function clientcommune()
+    public function clients()
     {
-        return $this->hasMany(ClientCommune::class);
+        return $this->belongsToMany(Client::class,'client_commune');
     }
     protected $fillable=[
         'libelle'

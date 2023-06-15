@@ -10,9 +10,9 @@ class OffreAdsl extends Model
     use HasFactory;
     protected $guarded= [];
 
-    public function offreadsladsl():HasMany
+    public function adsls()
     {
-        return $this->hasMany(OffreAdslAdsl::class);
+        return $this->belongsToMany(Adsl::class,'offre_adsl_adsl');
     }
 
 

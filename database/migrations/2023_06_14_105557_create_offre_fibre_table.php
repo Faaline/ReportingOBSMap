@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('client_communes', function (Blueprint $table) {
+        Schema::create('offre_fibre', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreignId('commune_id')->references('id')->on('communes')->onDelete('cascade');
+            $table->foreignId('offre_id')->references('id')->on('offres')->onDelete('cascade');
+            $table->foreignId('fibre_id')->references('id')->on('fibres')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_communes');
+        Schema::dropIfExists('offre_fibre');
     }
 };

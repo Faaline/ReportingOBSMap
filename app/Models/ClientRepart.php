@@ -9,13 +9,5 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ClientRepart extends Model
 {
     use HasFactory;
-    public function client(): BelongsTo
-    {
-        return $this->belongsTo(Client::class);
-    }
-    public function repart(): BelongsTo
-    {
-        return $this->belongsTo(Repart::class);
-    }
     protected $guarded=[];
 }

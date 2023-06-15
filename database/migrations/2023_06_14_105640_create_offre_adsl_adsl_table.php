@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('client_agences', function (Blueprint $table) {
+        Schema::create('offre_adsl_adsl', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreignId('agence_id')->references('id')->on('agences')->onDelete('cascade');
+            $table->foreignId('offre_adsl_id')->references('id')->on('offre_adsls')->onDelete('cascade');
+            $table->foreignId('adsl_id')->references('id')->on('adsls')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_agences');
+        Schema::dropIfExists('offre_adsl_adsl');
     }
 };

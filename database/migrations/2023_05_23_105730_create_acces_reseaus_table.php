@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('acces_reseaus', function (Blueprint $table) {
             $table->id();
             $table->string('libelle')->unique();
+            $table->foreignId('voix_fixe_id')->nullable()->references('id')->on('voix_fixes')->onDelete('cascade');
             $table->timestamps();
         });
     }

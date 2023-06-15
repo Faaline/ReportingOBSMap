@@ -16,7 +16,10 @@ return new class extends Migration
         Schema::create('segments', function (Blueprint $table) {
             $table->id();
             $table->string('libelle')->unique();
-            $table->foreignId('segmentmarche_id')->references('id')->on('segment_marches')->onDelete('cascade');
+            $table->foreignId('segment_marche_id')->nullable()
+                ->references('id')
+                ->on('segment_marches')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

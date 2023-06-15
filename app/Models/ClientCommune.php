@@ -9,13 +9,5 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ClientCommune extends Model
 {
     use HasFactory;
-    public function client(): BelongsTo
-    {
-        return $this->belongsTo(Client::class);
-    }
-    public function commune(): BelongsTo
-    {
-        return $this->belongsTo(Commune::class);
-    }
     protected $guarded=[];
 }

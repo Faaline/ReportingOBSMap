@@ -12,8 +12,8 @@ class Agence extends Model
     protected $fillable=[
         'libelle'
     ];
-    public function clientagence()
+    public function clients()
     {
-        return $this->hasMany(ClientAgence::class);
+        return $this->belongsToMany(Client::class,'client_agence');
     }
 }

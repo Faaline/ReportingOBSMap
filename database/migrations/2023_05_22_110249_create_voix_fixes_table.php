@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('client_adsls', function (Blueprint $table) {
+        Schema::create('voix_fixes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreignId('adsl_id')->references('id')->on('adsls')->onDelete('cascade');
+            $table->string('libelle')->unique();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_adsls');
+        Schema::dropIfExists('voix_fixes');
     }
 };

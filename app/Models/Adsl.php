@@ -8,16 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Adsl extends Model
 {
     use HasFactory;
-    public function clientadsl()
-
-
+    public function clients()
     {
-        return $this->hasMany(ClientAdsl::class);
+        return $this->belongsToMany(Client::class,'client_adsl');
     }
 
-    public function offreadsladsl():HasMany
+    public function offreAdsls()
     {
-        return $this->hasMany(OffreAdslAdsl::class);
+        return $this->belongsToMany(OffreAdsl::class,'offre_adsl_adsl');
     }
     protected $guarded=[];
 

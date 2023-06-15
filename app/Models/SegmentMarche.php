@@ -11,8 +11,8 @@ class SegmentMarche extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    public function segment(): BelongsTo
+    public function segments()
     {
-        return $this->belongsTo(Segment::class,);
+        return $this->hasMany(Segment::class,);
     }
 }

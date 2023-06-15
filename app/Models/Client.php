@@ -26,24 +26,24 @@ class Client extends Model
     {
         return $this->belongsTo(Segment::class,);
     }
-    public function clientagence()
+    public function agences()
     {
-        return $this->hasMany(ClientAgence::class);
+        return $this->belongsToMany(Agence::class,'client_agence');
     }
-    public function clientoffre()
+    public function offres()
     {
-        return $this->hasMany(ClientOffre::class);
+        return $this->belongsToMany(Offre::class);
     }
-    public function clientrepart()
+    public function reparts()
     {
-        return $this->hasMany(ClientRepart::class);
+        return $this->belongsToMany(Repart::class);
     }
-    public function clientcommune()
+    public function communes()
     {
-        return $this->hasMany(ClientCommune::class);
+        return $this->belongsToMany(Commune::class,'client_commune');
     }
-    public function clientadsl()
+    public function adsls()
     {
-        return $this->hasMany(ClientAdsl::class);
+        return $this->belongsToMany(Adsl::class,'client_adsl');
     }
 }

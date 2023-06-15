@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Repart extends Model
 {
     use HasFactory;
-    public function clientrepart()
+    public function clients()
     {
-        return $this->hasMany(ClientRepart::class);
+        return $this->belongsToMany(Client::class);
     }
-    public function communerepart()
+    public function communes()
     {
-        return $this->hasMany(CommuneRepart::class);
+        return $this->belongsToMany(Commune::class);
     }
     protected $guarded=[];
 }

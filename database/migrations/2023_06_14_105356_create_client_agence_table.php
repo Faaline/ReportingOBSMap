@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('commune_reparts', function (Blueprint $table) {
+        Schema::create('client_agence', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('commune_id')->references('id')->on('communes')->onDelete('cascade');
-            $table->foreignId('repart_id')->references('id')->on('reparts')->onDelete('cascade');
+            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreignId('agence_id')->references('id')->on('agences')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('commune_reparts');
+        Schema::dropIfExists('client_agence');
     }
 };

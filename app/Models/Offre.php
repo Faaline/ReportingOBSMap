@@ -15,17 +15,17 @@ class Offre extends Model
     ];
 
 
-    public function clientoffre():HasMany
+    public function clients()
     {
-        return $this->hasMany(ClientOffre::class);
+        return $this->belongsToMany(Client::class);
     }
     public function segmentoffre():HasMany
     {
         return $this->hasMany(SegmentSegmentMarche::class);
     }
-    public function offrefibre():HasMany
+    public function fibres()
     {
-        return $this->hasMany(OffreFibre::class);
+        return $this->belongsToMany(Fibre::class,'offre_fibre');
     }
 
 

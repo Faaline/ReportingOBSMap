@@ -9,14 +9,22 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
 {
+    public function __construct()
+    {
+        set_time_limit(300000);
+        ini_set('post_max_size', '5000M');
+        ini_set('upload_max_filesize', '5000M');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $clients=Client::with(['categorie','segment','statut'])->orderBy('created_at','desc')->paginate(10);
+        $clients=Client::with(['categorie','segment','statut','offres','reparts','agences','communes','adsls'])->orderBy('created_at','desc')->paginate(10);
         return response()->json($clients,200);
     }
 
@@ -86,11 +94,12 @@ class ClientController extends Controller
         //
     }
 
-    public function reportingImport(){
+    public function reportingImport(Request $request){
         $reportingImport = new ReportingImport();
-        Excel::import($reportingImport, request()->file('fileupload'));
+        Excel::import($reportingImport, $request->file('fileupload'));
         $nombre_de_ligne = $reportingImport ? $reportingImport->getRowCount() : 0;
         //dd($nombre_de_ligne);
+        return response()->json(['message'=> 'Fichier importe avec succes'], 200);
     }
 
     public function searchClient(Request $request)

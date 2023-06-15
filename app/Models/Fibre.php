@@ -11,9 +11,9 @@ class Fibre extends Model
     use HasFactory;
     protected $guarded=[];
 
-    public function offrefibre():HasMany
+    public function offres()
     {
-        return $this->hasMany(OffreFibre::class);
+        return $this->belongsToMany(Offre::class,'offre_fibre');
     }
     public function accesreseaufibre (){
         return $this->hasMany(AccesReseauFibre::class);

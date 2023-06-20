@@ -12,6 +12,15 @@ class SegmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /*public function __construct()
+    {
+        $soho= Segment::where('libelle','SOHO')->count();
+        $pmePmi= Segment::where('libelle','PME/PMI')->count();
+        $particulier= Segment::where('libelle','PARTICULIER 1')->count() + Segment::where('libelle','PARTICULIER 2')->count();
+        //$soho= Segment::where('libelle','soho');
+        dd('soho',$soho,'pme-pmi',$pmePmi,'particulier',$particulier);
+    }*/
+
     public function index()
     {
         $segment= Segment::orderBy('created_at','desc')->paginate(10);

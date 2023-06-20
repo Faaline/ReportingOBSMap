@@ -14,7 +14,7 @@ class OffreController extends Controller
      */
     public function index()
     {
-        $offre= Offre::orderBy('created_at','desc')->paginate(10);
+        $offre= Offre::with('fibres')->orderBy('created_at','desc')->paginate(10);
         return response()->json($offre,200);
     }
 

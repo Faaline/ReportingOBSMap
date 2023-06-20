@@ -14,7 +14,8 @@ class OffreFibreController extends Controller
      */
     public function index()
     {
-        //
+        $offreFibre= OffreFibre::orderBy('created_at','desc')->paginate(10);
+        return response()->json($offreFibre,200);
     }
 
     /**
@@ -24,7 +25,7 @@ class OffreFibreController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**

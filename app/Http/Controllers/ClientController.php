@@ -11,9 +11,10 @@ class ClientController extends Controller
 {
     public function __construct()
     {
-        set_time_limit(300000);
+        ini_set('memomry_limit', '1024M');
         ini_set('post_max_size', '5000M');
         ini_set('upload_max_filesize', '5000M');
+        set_time_limit(3000000);
     }
 
     /**
@@ -24,8 +25,28 @@ class ClientController extends Controller
 
     public function index()
     {
+        $soho = Client::join('segments', 'clients.segment_id', '=', 'segments.id')
+            ->where('segments.libelle', '=', 'SOHO')
+            ->count();
+        $pmePMi = Client::join('segments', 'clients.segment_id', '=', 'segments.id')
+            ->where('segments.libelle', '=', 'PME/PMI')
+            ->count();
+        $particulier = Client::join('segments', 'clients.segment_id', '=', 'segments.id')
+                ->where('segments.libelle', '=', 'PARTICULIER 1')
+                ->count() + Client::join('segments', 'clients.segment_id', '=', 'segments.id')
+                ->where('segments.libelle', '=', 'PARTICULIER 2')
+                ->count();
+        $etat = Client::join('segments', 'clients.segment_id', '=', 'segments.id')
+            ->where('segments.libelle', '=', 'ETAT')
+            ->count();
+        $grandComptes = Client::join('segments', 'clients.segment_id', '=', 'segments.id')
+            ->where('segments.libelle', '=', 'GRANDS COMPTES')
+            ->count();
+
+        //dd('soho',$soho,'pme-pmi',$pmePMi,'particulier',$particulier,'etat',$etat,'grand comptes',$grandComptes);
         $clients=Client::with(['categorie','segment','statut','offres','reparts','agences','communes','adsls'])->orderBy('created_at','desc')->paginate(10);
-        return response()->json($clients,200);
+        return response()->json([$clients,'soho'=> $soho,'pme_pmi'=> $pmePMi,
+            'particulier'=> $particulier,'etat'=> $etat,'grands_comptes'=> $grandComptes],200);
     }
 
     /**

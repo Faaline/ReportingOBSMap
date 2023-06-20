@@ -14,7 +14,7 @@ class CommuneController extends Controller
      */
     public function index()
     {
-        $commune= Commune::orderBy('created_at','desc')->paginate(10);
+        $commune= Commune::with('reparts')->orderBy('created_at','desc')->paginate(10);
         return response()->json($commune,200);
     }
 

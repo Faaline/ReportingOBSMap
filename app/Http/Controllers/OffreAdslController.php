@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OffreAdsl;
 use Illuminate\Http\Request;
 
 class OffreAdslController extends Controller
@@ -13,7 +14,8 @@ class OffreAdslController extends Controller
      */
     public function index()
     {
-        //
+        $offreAdsl= OffreAdsl::with('adsls')->orderBy('created_at','desc')->paginate(10);
+        return response()->json($offreAdsl,200);
     }
 
     /**

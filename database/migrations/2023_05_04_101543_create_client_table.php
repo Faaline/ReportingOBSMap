@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('ncli');
             $table->integer('ndos');
             $table->string('produit');
-            $table->string('nd');
+            $table->string('nd')->nullable();
             $table->string('bouquet_tv')->nullable();
             $table->string('service_fal')->nullable();
             $table->foreignId('statut_id')->references('id')->on('statuts')->onDelete('cascade');
@@ -30,8 +30,8 @@ return new class extends Migration
             $table->string('prenom')->nullable();
             $table->string('nom')->nullable();
             $table->foreignId('categorie_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->string('contact_mob')->nullable();
-            $table->string('contact_email')->nullable();
+            $table->string('contact_mob', 255)->nullable();
+            $table->string('contact_email', 255)->nullable();
             $table->foreignId('segment_id')->references('id')->on('segments')->onDelete('cascade');
             $table->timestamps();
         });

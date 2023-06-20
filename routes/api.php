@@ -29,7 +29,7 @@ Route::apiResources([
     'voix-fixes' => \App\Http\Controllers\VoixFixeController::class,
     'categories' => \App\Http\Controllers\CategorieController::class,
     'adsls' => \App\Http\Controllers\AdslController::class,
-    'offre_fibres' => \App\Http\Controllers\OffreFibreController::class,
+    'offre-fibres' => \App\Http\Controllers\OffreFibreController::class,
     'offre-adsl-adsl' => \App\Http\Controllers\OffreAdslAdslController::class,
     'commune-reparts' => \App\Http\Controllers\CommuneRepartController::class,
 

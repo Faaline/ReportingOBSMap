@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OffreFibreController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,13 +17,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+/*Route::group(['middleware' => 'api', 'prefix' => 'auth'
+], function (){
+    Route::post('register', [ AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::get('profile', [AuthController::class, 'profile']);
+});*/
+
 Route::apiResources([
     'communes' => \App\Http\Controllers\CommuneController::class,
     'reparts' => \App\Http\Controllers\RepartController::class,
     'segments' => \App\Http\Controllers\SegmentController::class,
+    'segment-marches' => \App\Http\Controllers\SegmentMarcheController::class,
     'clients' => \App\Http\Controllers\ClientController::class,
     'offres' => \App\Http\Controllers\OffreController::class,
     'agences' => \App\Http\Controllers\AgenceController::class,
@@ -32,7 +41,9 @@ Route::apiResources([
     'offre-fibres' => \App\Http\Controllers\OffreFibreController::class,
     'offre-adsl-adsl' => \App\Http\Controllers\OffreAdslAdslController::class,
     'commune-reparts' => \App\Http\Controllers\CommuneRepartController::class,
-
+    'acces-reseau' => \App\Http\Controllers\AccesReseauController::class,
+    'offre-adsl' => \App\Http\Controllers\OffreAdslController::class,
+    'users' => \App\Http\Controllers\UserController::class,
 ]);
 Route::post('import',[\App\Http\Controllers\ClientController::class, 'reportingImport']);
 Route::post('/offre-fibre/store-multiple', [OffreFibreController::class, 'storeMultiple']);

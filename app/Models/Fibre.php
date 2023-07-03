@@ -15,7 +15,9 @@ class Fibre extends Model
     {
         return $this->belongsToMany(Offre::class,'offre_fibre');
     }
-    public function accesreseaufibre (){
-        return $this->hasMany(AccesReseauFibre::class);
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class);
     }
+
 }

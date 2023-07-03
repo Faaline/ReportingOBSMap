@@ -5,7 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
-
 {
     /**
      * Run the migrations.
@@ -14,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('client_offre', function (Blueprint $table) {
+        Schema::create('client_fibre', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreignId('offre_id')->references('id')->on('offres')->onDelete('cascade');
+            $table->foreignId('fibre_id')->references('id')->on('fibres')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_offre');
+        Schema::dropIfExists('client_fibre');
     }
 };

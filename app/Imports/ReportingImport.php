@@ -56,41 +56,51 @@ class ReportingImport implements ToModel, WithHeadingRow, WithChunkReading, With
         // Récupérez la valeur de date et convertissez-la
         $dateMsv = $this->getDateFromFormat($client['date_msv'], 'd/m/y', 'y/m/d');
         $dateMsAc = $this->getDateFromFormat($client['datms_ac'], 'd/m/y', 'Y-m-d');
-
+        ++self::$rows;
         DB::transaction(function () use ($client, $dateMsv, $dateMsAc) {
-
-            $clientModel = new Client([
-                'ncli' => $client['ncli'],
-                'ndos' => $client['ndos'],
-                'produit' => $client['produit'],
-                'nd' => $client['nd'],
-                'bouquet_tv' => $client['bouquet_tv'],
-                'service_fal' => $client['service_fal'],
-                'statut_id' => $client['statut']->id,
-                'nd_smm' => $client['nd_smm'],
-                'login_smm' => $client['login_smm'],
-                'code_por' => $client['code_por'],
-                'date_msv' => $dateMsv,
-                'datms_ac' => $dateMsAc,
-                'prenom' => $client['prenom'],
-                'nom' => $client['nom'],
-                'categorie_id' => $client['categorie']->id,
-                'contact_mob' => $client['contact_mob'],
-                'contact_email' => $client['contact_email'],
-                'segment_id' => $client['segment']->id
-            ]);
+                $clientModel = new Client([
+                    'ncli' => $client['ncli'],
+                    'ndos' => $client['ndos'],
+                    'produit' => $client['produit'],
+                    'nd' => $client['nd'],
+                    'bouquet_tv' => $client['bouquet_tv'],
+                    'service_fal' => $client['service_fal'],
+                    'statut_id' => $client['statut'] !== null ? $client['statut']->id : null,
+                    'nd_smm' => $client['nd_smm'],
+                    'login_smm' => $client['login_smm'],
+                    'code_por' => $client['code_por'],
+                    'date_msv' => $dateMsv,
+                    'datms_ac' => $dateMsAc,
+                    'prenom' => $client['prenom'],
+                    'nom' => $client['nom'],
+                    'categorie_id' => $client['categorie'] !== null ? $client['categorie']->id : null,
+                    'contact_mob' => $client['contact_mob'],
+                    'contact_email' => $client['contact_email'],
+                    'segment_id' =>  $client['segment'] !== null ? $client['segment']->id : null
+                ]);
 
             $clientModel->save();
+
             // Associez les modèles via les relations définies
-            if ($client['offre'] !== null) {
-                $clientModel->offres()->attach($client['offre']->id);
+            if ($client['offre_fibre'] != null) {
+                $clientModel->offres()->attach($this->getOrCreateModel(Offre::class, 'type', $client['offre_fibre'])->id);
+                $this->getOrCreateModel(Segment::class, 'libelle', $client['segment'])
+                    ->offreFibres()->attach($this->getOrCreateModel(Offre::class, 'type', $client['offre_fibre'])->id);
             }
             if ($client['adsl'] !== null) {
                 $clientModel->adsls()->attach($client['adsl']->id);
-            }
-            if ($client['offre_adsl'] !== null){
                 $this->getOrCreateModel(OffreAdsl::class, 'type', $client['offre_adsl'])
                     ->adsls()->attach($client['adsl']->id);
+            }
+            if ($client['offre_adsl'] !== null){
+                $clientModel->offreAdsl()->attach($this->getOrCreateModel(OffreAdsl::class, 'type', $client['offre_adsl'])->id);
+                $this->getOrCreateModel(Segment::class, 'libelle', $client['segment'])
+                    ->offreadsl()->attach($this->getOrCreateModel(OffreAdsl::class, 'type', $client['offre_adsl'])->id);
+            }
+            if ($client['fibre'] !== null){
+                $clientModel->fibres()->attach($client['fibre']->id);
+                $this->getOrCreateModel(Offre::class, 'type', $client['offre_fibre'])
+                    ->fibres()->attach($client['fibre']->id);
             }
             if ($client['repart'] !== null) {
                 $clientModel->reparts()->attach($client['repart']->id);
@@ -100,11 +110,12 @@ class ReportingImport implements ToModel, WithHeadingRow, WithChunkReading, With
             if ($client['commune'] !== null) {
                 $clientModel->communes()->attach($client['commune']->id);
             }
-            if ($client['fibre'] !== null){
-                $this->getOrCreateModel(Offre::class, 'type', $client['offre_fibre'])
-                    ->fibres()->attach($client['fibre']->id);
+            if ($client['voix_fixe'] !== null) {
+                $clientModel->voixFixes()->attach($this->getOrCreateModel(VoixFixe::class, 'libelle', $client['voix_fixe'])->id);
             }
-            $clientModel->agences()->attach($client['agence']->id);
+            if ($client['agence'] !== null){
+                $clientModel->agences()->attach($client['agence']->id);
+            }
 
         });
     }
@@ -126,7 +137,7 @@ class ReportingImport implements ToModel, WithHeadingRow, WithChunkReading, With
 
     private function getRelatedModels(array $client): array
     {
-        $relatedModels = [];
+       $relatedModels = [];
 
         $relatedModels['offre'] = $this->getOrCreateModel(Offre::class, 'type', $client['offre_fibre']);
         $relatedModels['statut'] = $this->getOrCreateModel(Statut::class, 'libelle', $client['statut']);
@@ -140,15 +151,45 @@ class ReportingImport implements ToModel, WithHeadingRow, WithChunkReading, With
         $relatedModels['fibre'] = $this->getOrCreateModel(Fibre::class, 'type', $client['fibre']);
         $relatedModels['voixFixe'] = $this->getOrCreateModel(VoixFixe::class, 'libelle', $client['voix_fixe']);
         if ($relatedModels['voixFixe'] !== null) {
-            $relatedModels['accesReseau'] = $this->getOrCreateModel2(AccesReseau::class, 'libelle', $client['acces_reseau'], 'voix_fixe_id', $relatedModels['voixFixe']->id);
+           $relatedModels['accesReseau'] = $this->getOrCreateModel2(AccesReseau::class, 'libelle', $client['acces_reseau'], 'voix_fixe_id', $relatedModels['voixFixe']->id);
         }
+        $relatedModels['segment'] = $this->getOrCreateModel2(Segment::class, 'libelle', $client['segment'], 'segment_marche_id', $relatedModels['segmentMarche']->id);
+        /*$relatedModels['segment'] = new Segment();
+        $relatedModels['segment']-> libelle = $client['segment'];
+        $relatedModels['segment']-> segment_marche_id = $relatedModels['segmentMarche']->id;
+        $relatedModels['segment']->save();*/
 
-            $relatedModels['segment'] = Segment::firstOrCreate(['libelle' => $client['segment']]);
-            $relatedModels['segment']->segment_marche_id=$relatedModels['segmentMarche']->id;
-            $relatedModels['segment']->save();
 
         return $relatedModels;
-    }
+   }
+
+//    private function getRelatedModels(array $client): array
+//    {
+//        $relatedModels = [];
+//        $relatedModels['offre'] = Offre::where('type', $client['offre_fibre'])->first();
+//        $relatedModels['statut'] = Statut::where('libelle', $client['statut'])->first();
+//        $relatedModels['adsl'] = Adsl::where('type', $client['adsl'])->first();
+//        $relatedModels['commune'] = Commune::where('libelle', $client['commune'])->first();
+//        $relatedModels['repart'] = Repart::where('libelle', $client['repart'])->first();
+//        $relatedModels['agence'] = Agence::where('libelle', $client['agence'])->first();
+//        $relatedModels['segmentMarche'] = SegmentMarche::where('libelle', $client['segment_marche'])->first();
+//        $relatedModels['offreAdsl'] = OffreAdsl::where('type', $client['offre_adsl'])->first();
+//        $relatedModels['categorie'] = Categorie::where('libelle', $client['categorie'])->first();
+//        $relatedModels['fibre'] = Fibre::where('type', $client['fibre'])->first();
+//        $relatedModels['voixFixe'] = VoixFixe::where('libelle', $client['voix_fixe'])->first();
+//        if ($relatedModels['voixFixe'] !== null) {
+//            $relatedModels['accesReseau'] = AccesReseau::where('libelle', $client['acces_reseau'])
+//                ->where('voix_fixe_id', $relatedModels['voixFixe']->id)
+//                ->first();
+//        }
+//        if ($relatedModels['segmentMarche'] !== null){
+//            $relatedModels['segment'] = Segment::where('libelle', $client['segment'])
+//                ->where('segment_marche_id', $relatedModels['segmentMarche']->id)
+//                ->first();
+//        }
+//        return $relatedModels;
+//    }
+
 
     private function getOrCreateModel($modelClass, $column, $value)
     {
@@ -172,12 +213,9 @@ class ReportingImport implements ToModel, WithHeadingRow, WithChunkReading, With
             return null;
         }
 
-        $model = $modelClass::where($column, $value)->where($relatedColumn, $relatedValue)->first();
-        if (!$model) {
-            $model = $modelClass::firstOrCreate([$column => $value, $relatedColumn => $relatedValue]);
-        }
-        return $model;
+        $model = $modelClass::firstOrCreate([$column => $value], [$relatedColumn => $relatedValue]);
 
+        return $model;
     }
 
     private function getDateFromFormat($dateString, $currentFormat, $targetFormat)

@@ -14,6 +14,14 @@ class OffreAdsl extends Model
     {
         return $this->belongsToMany(Adsl::class,'offre_adsl_adsl');
     }
+    public function segments()
+    {
+        return $this->belongsToMany(Segment::class,'segment_offre_adsl');
+    }
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class);
+    }
 
 
 }

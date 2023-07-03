@@ -12,18 +12,49 @@ class SegmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /*public function __construct()
-    {
-        $soho= Segment::where('libelle','SOHO')->count();
-        $pmePmi= Segment::where('libelle','PME/PMI')->count();
-        $particulier= Segment::where('libelle','PARTICULIER 1')->count() + Segment::where('libelle','PARTICULIER 2')->count();
-        //$soho= Segment::where('libelle','soho');
-        dd('soho',$soho,'pme-pmi',$pmePmi,'particulier',$particulier);
-    }*/
 
     public function index()
     {
-        $segment= Segment::orderBy('created_at','desc')->paginate(10);
+        $fibreOfficeIntense = Segment::where('libelle','SOHO')->whereHas('offreFibres', function ($query) {
+            $query->where('type', 'FIBRE OFFICE INTENSE');
+        })->count();
+        //dd($fibreOfficeIntense);
+        $fibreCollabo = Segment::whereHas('offreFibres', function ($query) {
+            $query->where('type', 'FIBRE COLLABO');
+        })->count();
+        $fibreFTTO = Segment::where('libelle','')->whereHas('offreFibres', function ($query) {
+            $query->where('type', 'FIBRE FTTO');
+        })->count();
+        $fibreOfficeIntenseOuvert = Segment::whereHas('offreFibres', function ($query) {
+            $query->where('type', 'FIBRE OFFICE INTENSE OUVERT');
+        })->count();
+        $fibreOffice = Segment::whereHas('offreFibres', function ($query) {
+            $query->where('type', 'FIBRE OFFICE');
+        })->count();
+        $fibrePro = Segment::whereHas('offreFibres', function ($query) {
+            $query->where('type', 'FIBRE PRO');
+        })->count();
+        $fibreProMax = Segment::whereHas('offreFibres', function ($query) {
+            $query->where('type', 'FIBRE PRO MAX');
+        })->count();
+        $fibreProXaragne = Segment::whereHas('offreFibres', function ($query) {
+            $query->where('type', 'FIBRE PRO XARAGNE');
+        })->count();
+        $internetProPlus = Segment::whereHas('offreFibres', function ($query) {
+            $query->where('type', 'INTERNET PRO PLUS');
+        })->count();
+        $keurguiPlus = Segment::whereHas('offreFibres', function ($query) {
+            $query->where('type', 'KEURGUI PLUS');
+        })->count();
+        $fibreBi = Segment::whereHas('offreFibres', function ($query) {
+            $query->where('type', 'FIBRE BI');
+        })->count();
+        $fibreMega = Segment::whereHas('offreFibres', function ($query) {
+            $query->where('type', 'FIBRE MEGA');
+        })->count();
+        //dd($fibreOfficeIntenseOuvert,$fibreCollabo,$fibreFTTO,$fibreOffice,$fibreOfficeIntense,
+        //$fibrePro,$fibreProMax,$fibreProXaragne,$internetProPlus,$keurguiPlus,$fibreBi,$fibreMega);
+        $segment= Segment::with(['offreFibres','offreadsl','segmentMarche'])->orderBy('created_at','desc')->paginate(10);
         return response()->json($segment,200);
     }
 
@@ -202,7 +233,11 @@ class SegmentController extends Controller
      */
     public function show($id)
     {
-        //
+        $segment = Segment::with(['offrefibre','offreadsl','segmentMarche'])->find($id);
+        if ($segment){
+            return response()->json($segment,200);
+        }
+        return response()->json(['message'=>'segemnt non trouve'],404);
     }
 
     /**

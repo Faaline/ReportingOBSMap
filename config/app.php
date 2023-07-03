@@ -163,6 +163,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -177,6 +178,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Fruitcake\Cors\CorsServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
 
     ],
 
@@ -191,8 +194,13 @@ return [
     |
     */
 
+
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
-    ])->toArray(),
+        // 'ExampleClass' => App\Example\ExampleClass::class,
+        'JWTAuth'=>Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTAuthFactory'=>Tymon\JWTAuth\Facades\JWTFactory::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Validator'=> Illuminate\Support\Facades\Validator::class
+        ])->toArray(),
 
 ];

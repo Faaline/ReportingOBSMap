@@ -19,9 +19,9 @@ class Offre extends Model
     {
         return $this->belongsToMany(Client::class);
     }
-    public function segmentoffre():HasMany
+    public function segments()
     {
-        return $this->hasMany(SegmentSegmentMarche::class);
+        return $this->belongsToMany(Segment::class,'segment_offre');
     }
     public function fibres()
     {

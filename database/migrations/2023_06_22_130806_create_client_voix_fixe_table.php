@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('segment_segment_marches', function (Blueprint $table) {
+        Schema::create('client_voix_fixe', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('segment_id')->references('id')->on('segments')->onDelete('cascade');
-            $table->foreignId('segment_marche_id')->references('id')->on('segment_marches')->onDelete('cascade');
+            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreignId('voix_fixe_id')->references('id')->on('voix_fixes')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('segment_segment_marches');
+        Schema::dropIfExists('client_voix_fixe');
     }
 };

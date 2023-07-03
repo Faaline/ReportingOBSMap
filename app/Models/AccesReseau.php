@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AccesReseau extends Model
 {
     use HasFactory;
     protected $guarded=[];
 
-    public function accesreseaufibre(){
-        return $this->hasMany(AccesReseauFibre::class);
-    }
-    public function voixfixe(){
+    public function voixFixe() : BelongsTo
+    {
         return $this->belongsTo(VoixFixe::class);
     }
 }

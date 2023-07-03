@@ -14,7 +14,8 @@ class SegmentMarcheController extends Controller
      */
     public function index()
     {
-        //
+        $segmentMarche= SegmentMarche::with(['segments'])->orderBy('created_at','desc')->paginate(10);
+        return response()->json($segmentMarche,200);
     }
 
     public function insertMultiple()

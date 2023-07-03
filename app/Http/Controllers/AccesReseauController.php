@@ -14,7 +14,8 @@ class AccesReseauController extends Controller
      */
     public function index()
     {
-        //
+        $voixFixe=AccesReseau::with(['voixFixe'])->orderBy('created_at','desc')->paginate(10);
+        return response()->json($voixFixe,200);
     }
 
     /**

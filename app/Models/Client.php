@@ -24,7 +24,7 @@ class Client extends Model
 
     public function segment(): BelongsTo
     {
-        return $this->belongsTo(Segment::class,);
+        return $this->belongsTo(Segment::class);
     }
     public function agences()
     {
@@ -45,5 +45,17 @@ class Client extends Model
     public function adsls()
     {
         return $this->belongsToMany(Adsl::class,'client_adsl');
+    }
+    public function fibres()
+    {
+        return $this->belongsToMany(Fibre::class);
+    }
+    public function offreAdsl()
+    {
+        return $this->belongsToMany(OffreAdsl::class);
+    }
+    public function voixFixes()
+    {
+        return $this->belongsToMany(VoixFixe::class);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Segment extends Model
@@ -12,16 +13,19 @@ class Segment extends Model
     protected $fillable=[
         'libelle'
     ];
-
     public function clients(): HasMany
     {
         return $this->hasMany(Client::class);
     }
-    public function segmentoffre()
+    public function offreFibres()
     {
-        return $this->hasMany(SegmentSegmentMarche::class);
+        return $this->belongsToMany(Offre::class,'segment_offre');
     }
-    public function segmentmarche()
+    public function offreadsl()
+    {
+        return $this->belongsToMany(OffreAdsl::class,'segment_offre_adsl');
+    }
+    public function segmentMarche() : BelongsTo
     {
         return $this->belongsTo(SegmentMarche::class);
     }

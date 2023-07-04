@@ -14,8 +14,6 @@ class ClientController extends Controller
     {
         $this->clientService = $clientService;
         ini_set('memomry_limit', '1024M');
-        ini_set('post_max_size', '5000M');
-        ini_set('upload_max_filesize', '5000M');
         set_time_limit(3000000);
     }
 
@@ -176,7 +174,7 @@ class ClientController extends Controller
         return response()->json([$clients,'soho'=> $soho,'pme_pmi'=> $pmePMi,
             'particulier'=> $particulier,'etat'=> $etat,'grandsCompte'=> $grandsCompte,
             'fibre'=> $fibre,'adsl'=> $adsl,'dvps'=> $dvps,
-            'seriesDvps'=>[$soho,$pmePMi,$particulier],'dvei'=> $dvei,
+            'seriesDvps'=>[$soho,$pmePMi,$particulier],'dvei'=> $dvei,'seriesDvei'=>[$etat,$grandsCompte],
             'sonatel'=> $sonatel,'autre'=> $autre,'total'=> $dvps + $dvei + $sonatel + $autre,
             'fibreOfficeIntenseOuvertSoho'=> $fibreOfficeIntenseOuvertSoho,'fibreCollaboSoho'=> $fibreCollaboSoho, 'fibreFTTOSoho'=>$fibreFTTOSoho,
             'fibreOfficeSoho'=> $fibreOfficeSoho,'fibreOfficeIntenseSoho'=> $fibreOfficeIntenseSoho,'fibreProSoho'=> $fibreProSoho,

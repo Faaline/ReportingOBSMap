@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use Illuminate\Http\Request;
 
-class ProfilController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,9 @@ class ProfilController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(
+            Profile::orderBy('created_at','desc')->get()
+            ,200);
     }
 
     /**
@@ -34,7 +37,13 @@ class ProfilController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Profile::create(array_merge(
+            [
+                'libelle' => strtoupper($request->all()['libelle']),
+            ]));
+        return response()->json([
+            'success'=>'Profil ajouté avec succès',
+        ],201);
     }
 
     /**

@@ -42,13 +42,14 @@ class AuthController extends Controller
 
     public function createNewToken($token)
     {
+        $user = auth()->user();
+        $user->load('profile'); // Chargement du profil associé à l'utilisateur
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expired_in' => JWTAuth::factory()->getTTL() * 60,
-            //'expired' => auth()->factory()->getTTL() * 480,
-            'user' => auth()->user(),
-            'message' => 'welecome ' . auth()->user()->prenom
+            'token' => $token,
+            'type' => 'bearer',
+            'expired' => JWTAuth::factory()->getTTL() * 60,
+            'user' => $user,
+            'message' => 'welcome ' . $user->prenom
         ]);
     }
 
@@ -71,15 +72,6 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        //   if(!Gate::allows('superadmin')){
-        //       return response()->json([
-        //           'message'=>'vous n\'avez pas acceces aux ressources demandées'
-        //       ],403);
-        //   }
-        //$prenomnom=$request->all()['prenom'].' '.$request->all()['nom'];
-        //$matches=array();
-       // preg_match("/[0-9]*$/",$request->all()['login'],$matches);
-        //$defaultpassword = strtoupper(substr(uniqid(),6));
         //$idProfile = $request->profile_id;
         //$profile = DB::table('profiles')->where('id', $idProfile)->first();
         $validator = Validator::make($request->all(), [
@@ -87,9 +79,7 @@ class AuthController extends Controller
             'nom'=>'required',
             'email' => 'required|string|unique:users',
             'password' => 'required|string|confirmed|min:6|confirmed|max:15',
-            //'login' => 'required',
             //'profile_id' => 'required',
-            //'drv_id' => 'required',
             //'telephone'=>'required',
             //'adresse'=>'required',
         ]);
@@ -134,7 +124,6 @@ class AuthController extends Controller
             'token' => $token,
             'type' => 'bearer',
             'expired' => auth()->factory()->getTTL() * 60,
-            //'expired' => JWTAuth::factory()->getTTL() * 480,
             'user' => auth()->user(),
             'message' => 'welcome ' . auth()->user()->prenom
         ]);

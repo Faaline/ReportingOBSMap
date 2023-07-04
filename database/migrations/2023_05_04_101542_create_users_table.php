@@ -18,9 +18,12 @@ return new class extends Migration
             $table->string('prenom')->nullable();
             $table->string('nom')->nullable();
             $table->string('email')->unique();
-            //$table->string('defaultpassword')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->foreignId('profile_id')->nullable()->
+                references('id')->
+                on('profiles')->
+                onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

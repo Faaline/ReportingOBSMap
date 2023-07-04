@@ -17,14 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::group(['middleware' => 'api', 'prefix' => 'auth'
+Route::group(['middleware' => 'api', 'prefix' => 'auth'
 ], function (){
     Route::post('register', [ AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
-    Route::get('profile', [AuthController::class, 'profile']);
-});*/
+});
 
 Route::apiResources([
     'communes' => \App\Http\Controllers\CommuneController::class,
@@ -45,7 +44,16 @@ Route::apiResources([
     'offre-adsl' => \App\Http\Controllers\OffreAdslController::class,
     'users' => \App\Http\Controllers\UserController::class,
 ]);
+
+Route::middleware(['auth'])->group(function (){
+    Route::apiResources([
+        'users' => \App\Http\Controllers\UserController::class,
+        'profiles' => \App\Http\Controllers\ProfileController::class
+    ]);
+});
+
 Route::post('import',[\App\Http\Controllers\ClientController::class, 'reportingImport']);
+//Route::post('profiles/creation', [\App\Http\Controllers\ProfilController::class, 'store']);
 Route::post('/offre-fibre/store-multiple', [OffreFibreController::class, 'storeMultiple']);
 Route::post('/segment-offre/store-multiple', [\App\Http\Controllers\SegmentSegmentMarcheController::class, 'storeMultiple']);
 Route::post('/commune-repart/store-multiple', [\App\Http\Controllers\CommuneRepartController::class, 'storeMultiple']);

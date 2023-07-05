@@ -24,7 +24,6 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:6|max:15'
@@ -79,7 +78,7 @@ class AuthController extends Controller
             'nom'=>'required',
             'email' => 'required|string|unique:users',
             'password' => 'required|string|confirmed|min:6|confirmed|max:15',
-            //'profile_id' => 'required',
+            'profile_id' => 'required',
             //'telephone'=>'required',
             //'adresse'=>'required',
         ]);
@@ -92,6 +91,7 @@ class AuthController extends Controller
                 'password' => bcrypt($request->password),
             ],
         ));
+        //dd($user);
         return response()->json([
             'message' => "l'utilisateur  crée avec succes",
             'user' => $user->all()

@@ -47,7 +47,7 @@ Route::apiResources([
 
 Route::middleware(['auth'])->group(function (){
     Route::apiResources([
-        'users' => \App\Http\Controllers\UserController::class,
+        //'users' => \App\Http\Controllers\UserController::class,
         'profiles' => \App\Http\Controllers\ProfileController::class
     ]);
 });

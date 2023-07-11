@@ -43,12 +43,14 @@ Route::apiResources([
     'acces-reseau' => \App\Http\Controllers\AccesReseauController::class,
     'offre-adsl' => \App\Http\Controllers\OffreAdslController::class,
     'users' => \App\Http\Controllers\UserController::class,
+    'profiles' => \App\Http\Controllers\ProfileController::class
+
 ]);
 
 Route::middleware(['auth'])->group(function (){
     Route::apiResources([
         //'users' => \App\Http\Controllers\UserController::class,
-        'profiles' => \App\Http\Controllers\ProfileController::class
+        //'profiles' => \App\Http\Controllers\ProfileController::class
     ]);
 });
 

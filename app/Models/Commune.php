@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Commune extends Model
 {
     use HasFactory;
+
+    protected $guarded=[];
     public function reparts()
     {
         return $this->belongsToMany(Repart::class);
@@ -16,7 +18,6 @@ class Commune extends Model
     {
         return $this->belongsToMany(Client::class,'client_commune');
     }
-    protected $fillable=[
-        'libelle'
-    ];
+
+
 }

@@ -43,19 +43,22 @@ Route::apiResources([
     'acces-reseau' => \App\Http\Controllers\AccesReseauController::class,
     'offre-adsl' => \App\Http\Controllers\OffreAdslController::class,
     'users' => \App\Http\Controllers\UserController::class,
-    'profiles' => \App\Http\Controllers\ProfileController::class
+    'profiles' => \App\Http\Controllers\ProfileController::class,
+    'clients-commune' => \App\Http\Controllers\ClientCommuneController::class,
+
+
 
 ]);
 
 Route::middleware(['auth'])->group(function (){
     Route::apiResources([
-        //'users' => \App\Http\Controllers\UserController::class,
-        //'profiles' => \App\Http\Controllers\ProfileController::class
+        'users' => \App\Http\Controllers\UserController::class,
+       // 'profiles' => \App\Http\Controllers\ProfileController::class
     ]);
 });
 
 Route::post('import',[\App\Http\Controllers\ClientController::class, 'reportingImport']);
-//Route::post('profiles/creation', [\App\Http\Controllers\ProfilController::class, 'store']);
+Route::post('profiles', [\App\Http\Controllers\ProfileController::class, 'store']);
 Route::post('/offre-fibre/store-multiple', [OffreFibreController::class, 'storeMultiple']);
 Route::post('/segment-offre/store-multiple', [\App\Http\Controllers\SegmentSegmentMarcheController::class, 'storeMultiple']);
 Route::post('/commune-repart/store-multiple', [\App\Http\Controllers\CommuneRepartController::class, 'storeMultiple']);
@@ -65,4 +68,5 @@ Route::post('/commune/insert-multiple', [\App\Http\Controllers\CommuneController
 Route::post('/repart/insert-multiple', [\App\Http\Controllers\RepartController::class, 'insertMultiple']);
 Route::post('/acces-reseau/insert-multiple', [\App\Http\Controllers\AccesReseauController::class, 'insertMultiple']);
 Route::get('/client/search', [\App\Http\Controllers\ClientController::class, 'searchClient']);
+
 

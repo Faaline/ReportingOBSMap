@@ -9,6 +9,8 @@ use App\Services\ClientService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
+
 
 class ClientController extends Controller
 {
@@ -27,10 +29,10 @@ class ClientController extends Controller
 
     public function index()
     {
-        $cacheKey = 'clients_data';
-        $cacheDuration = 60; // Durée de mise en cache en minutes
+            $cacheKey = 'clients_commune_data';
+            $cacheDuration = 60; // Durée de mise en cache en minutes
 
-        $clients = Cache::remember($cacheKey, $cacheDuration, function (){
+            $clients = Cache::remember($cacheKey, $cacheDuration, function (){
 
             $soho = Client::join('segments', 'clients.segment_id', '=', 'segments.id')
                 ->whereIn('segments.libelle',['SOHO','OBO','PPR','SGM','TPE','VPP3','SOH',
@@ -48,6 +50,7 @@ class ClientController extends Controller
                     'RETRAITE GROUPE SONATEL','ESN','XSE','EOR','EXPLOITATION SONATEL MOBILES'])->count();
             $autre = Client::join('segments', 'clients.segment_id', '=', 'segments.id')
                 ->whereIn('segments.libelle', ['OPE','OPERATEURS'])->count();
+
             $fibre= Client::whereHas('fibres')->count();
             $adsl= Client::whereHas('adsls')->count();
             $dvps = $soho + $particulier + $pmePMi;

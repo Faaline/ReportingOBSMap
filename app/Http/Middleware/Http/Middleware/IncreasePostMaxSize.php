@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 
-class UnAuthenticate
+class IncreasePostMaxSize
 {
     /**
      * Handle an incoming request.
@@ -16,11 +16,8 @@ class UnAuthenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->guest()){
-            return response()->json([
-                'message'=>'Connectez-vous pour acceder à cette route'
-            ],401);
-        }
+        ini_set('post_max_size', '5000M');
+        ini_set('upload_max_filesize', '5000M');
         return $next($request);
     }
 }

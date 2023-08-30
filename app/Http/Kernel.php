@@ -24,7 +24,6 @@ class Kernel extends HttpKernel
         \Fruitcake\Cors\HandleCors::class,
         Middleware\Http\Middleware\IncreasePostMaxSize::class,
         Middleware\Http\Middleware\Cors::class,
-
     ];
 
     /**

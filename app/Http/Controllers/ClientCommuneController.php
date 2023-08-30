@@ -27,132 +27,96 @@ class ClientCommuneController extends Controller
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
                 ->whereIn('communes.libelle', [
                     'BOPP', 'CAMBERENE-PARCELLES ASSAINIES', 'CENTENAIRE - GIBRALTAR', 'CASTORS - DERKLE',
-                    'COLOBANE','DIAMNIADIO', 'FANN', 'FANN HOCK', 'FASS', 'FASS MBAO', 'FOIRE', 'G1-DAKAR',
-                    'GRAND DAKAR - USINE','GUEDIAWAYE', 'GRAND YOFF','GUELE TAPEE','H.L.M. - CITE PORT - SODIDA',
-                    'HANN', 'ILE DE GOREE','KEUR MASSAR','KEUR MBAYE FALL','MBAO','MEDINA',
-                    'NGOR - ALMADIES', 'NORD LIBERTE 6', 'OUAGOU NIAYES', 'OUAKAM','PATTE D OIE BUILDERS - SOPRIM',
-                    'POINT E','POSTE DAKAR - RP','PIKINE','RUFISQUE','SICAP','SICAP MBAO', 'THIAROYE','THIAROYE SUR MER',
-                    'YEUMBEUL','YOFF','ZONE A - ZONE B','ZONE FRANCHE INDUSTRIELLE', 'ZONE INDUSTRIELLE','ZONE PORTUAIRE'])
+                    'COLOBANE','DIAMNIADIO', 'FANN', 'FANN HOCK', 'FASS', 'FASS MBAO', 'FOIRE', 'G1-DAKAR','G1-DAKAR MEDINA','G1-RUFISQUE','G1-GUEDIAWAYE PIKINE',
+                    'GRAND DAKAR - USINE','GUEDIAWAYE', 'GRAND YOFF','GUELE TAPEE','H.L.M. - CITE PORT - SODIDA', 'HANN', 'ILE DE GOREE','HLM PATTE D OIE',
+                    'KEUR MASSAR','KEUR MBAYE FALL','MBAO','MEDINA', 'NGOR - ALMADIES', 'NORD LIBERTE 6', 'OUAGOU NIAYES', 'OUAKAM',
+                    'PATTE D OIE BUILDERS - SOPRIM', 'POINT E','POSTE DAKAR - RP','POSTCHANCE DAKAR-RP','POSTCHANCE PARCELLES-ASSAINIES','POSTE BARGNY','POSTCHANCE SOUMBEDIOUNE',
+                    'POSTE MEDINA GOUNASS','POSTE DAKAR-FANN','POSTE DAKAR-LIBERTE','POSTE DAKAR-PONTY','POSTE DAKAR-PEYTAVIN','POSTE DAKAR-HLM 5','POSTE DAKAR-YOFF','POSTE DAKAR-GRAND YOFF',
+                    'POSTE DAKAR-MEDINA','POSTE DAKAR VDN','POSTE DAKAR-COLOBANE','POSTE PARCELLES-ASSAINIES','POSTE PARCELLES ASSAINIES','POSTE RUFISQUE','POSTE THIAROYE','POSTE SEBIKHOTANE','SEBIKHOTANE','SANGALKAM',
+                    'PIKINE','RUFISQUE','SICAP','SICAP MBAO', 'THIAROYE','THIAROYE SUR MER','THIAROYE AZUR', 'YEUMBEUL','YOFF','ZONE A - ZONE B','ZONE FRANCHE INDUSTRIELLE', 'ZONE INDUSTRIELLE','ZONE PORTUAIRE','BAMBYLORE - GOROM - BAYAKH',
+                    'BARGNY','DIAMAGUENE - DIACKSAO','DIAMNIADIO','MALIKA','MERMOZ','NIAGA - NIACOURAB','RUFUSQUE_DIAMNIADIO','ROSSO SENEGAL_COMMUNE','YENN-NIANGHAL-TOUBAB DIALAO'])
                 ->count();
             $diourbel = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->whereIn('communes.libelle', ['DIOURBEL', 'DIOURBEL_NDOULO'])
+                ->whereIn('communes.libelle', ['DIOURBEL', 'DIOURBEL_NDOULO','DIOURBEL_NDINDY','BAMBEY','BAMBEY_NGOYE','BAMBEY_BABA GARAGE','BAMBEY_LAMBAYE',
+                    'DAROU MOUSTY','DAROU KHOUDOSS','TOUBA MOSQUEE','MBACKE_NDAME','MBACKE_TAIF','MBACKE_KAEL','MADYANA','NDAME MBACKE',
+                    'POSTE TOUBA'])
                 ->count();
-
-            $kaolack = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['KAOLACK'])
-                ->count();
-
 
             $fatick = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['FATICK'])
+                ->where('communes.libelle', ['FATICK','DIOFFIOR','POSTE FIMELA','FATICK_FIMELA','FATICK_TATTAGUINE','FATICK_DIAKHAO','FATICK_NIAKHAR',
+                    'FOUNDIOUGNE','FOUNDIOUGNE_TOUBACOUTA','FOUNDIOUGNE_NIODIOR','FOUNDIOUGNE_DJILOR','GOSSAS','GOSSAS_COLOBANE','GOSSAS_MBADAKHOUME','GOSSAS_OUADIOUR',
+                    'NIAKHAR','PASSY','POSTE FIMELA','SOKONE','TOUBACOUTA'])
+                ->count();
+            $kaolack = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
+                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
+                ->where('communes.libelle', ['KAOLACK','GANDIAYE','GUINGUENEO','KAHONE','KAOLACK_SIBASSOR','KAOLACK_NDIEDIENG','KAOLACK_KOUMBALE',
+                    'NDOFFANE','NIORO','NIORO_PAOSKOTO','NIORO_WACK NGOUNA','NIORO_MEDINA SABAKH','SIBASSOR'])
                 ->count();
             $kaffrine = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['KAFFRINE'])
+                ->where('communes.libelle', ['KAFFRINE','KAFFRINE_BIRKELANE','KAFFRINE_NGANDA','KAFFRINE_MAKA YOB','KAFFRINE_MALEM HODAR','KOUNGHEUL',])
+                ->count();
+            $kedougou = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
+                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
+                ->where('communes.libelle', ['KEDOUGOU', 'KEDOUGOU_BANDAFASSI', 'KEDOUGOU_SARAYA', 'KEDOUGOU_SALEMATA','KEDOUGOU_FONGOLIMBI',])
                 ->count();
             $kolda = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->whereIn('communes.libelle', ['KOLDA', 'KOLDA_DIOULACOLON', 'KOLDA_MEDINA YORO FOULAH',
-                 ])
+                ->whereIn('communes.libelle', ['KOLDA', 'KOLDA_DIOULACOLON', 'KOLDA_MEDINA YORO FOULAH', 'KOLDA_DABO'])
                 ->count();
-            $saintLouis = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
+            $louga = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->whereIn('communes.libelle', ['SAINT LOUIS','DAGANA'])
+                ->whereIn('communes.libelle', ['LOUGA', 'LOUGA_SAKAL', 'LOUGA_COKI','LOUGA_MBEDIENE','LOUGA_KEUR MOMAR SARR','LINGUERE',
+                    'LINGUERE_BARKEDJI','LINGUERE_SAGATTA DJOLOFF','LINGUERE_YANG YANG','LINGUERE_DODJI','DAHRA','KEBEMER',
+                    'KEBEMER_SAGATTA','KEBEMER_DAROU MOUSTY','KEBEMER_NDANDE','KEBEMER_GEOUL','POSTE GUEOUL'])
                 ->count();
-/*
-            $bakel = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
+            $matam = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->whereIn('communes.libelle', ['BAKEL_COMMUNE', 'BAKEL_KIDIRA', 'BAKEL_DIAWARA', 'BAKEL_MOUDERY', 'BAKEL_GOUDIRY'])
-                ->count();
-            $bambey = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['Bambey'])
-                ->count();
-            $bambibor_gorom_bayakh = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->whereIn('communes.libelle', ['BAMBYLORE-GOROM-BAYAKH'])
-                ->count();
-            $bargny = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['BARGNY'])
-                ->count();
-            $bignona = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->whereIn('communes.libelle', ['BIGNONA_COMMUNE', 'BIGNONA_SINDIAN', 'BIGNONA_DIOULOULOU', 'BIGNONA_TENDOUCK'])
-                ->count();
-            $birkilane = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['BIRKELANE'])
-                ->count();
-            $bopp = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['BOPP'])
-                ->count();
-            $camberene = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['CAMBERENE-PARCELLES ASSAINIES'])
-                ->count();
-            $parcellesAssainies = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['CAMBERENE-PARCELLES ASSAINIES'])
-                ->count();
-            $castor_derkle = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['CASTORS - DERKLE'])
-                ->count();
-            $centenaire_gibraltard = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['CENTENAIRE - GIBRALTAR'])
-                ->count();
-            $tivaouaneMbapal = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['TIVAOUANE_PAMBAL'])
-                ->count();
-            $grandYoff = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['GRAND YOFF'])
-                ->count();
-            $kounguel = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['KOUNGHEUL'])
-                ->count();
-            $sicap = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['SICAP'])
-                ->count();
-            $sicapMbao = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
-                ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['SICAP MBAO'])
+                ->whereIn('communes.libelle', ['MATAM','MATAM_AGNAM CIVOL','MATAM_OGO','KANEL_SINTHIOU BAMAMBE','KANEL_COMMUNE','KANEL_ORKADIERE',
+                    'OUROSSOGUI_COMMUNE','RANEROU_COMMUNE','VELINGARA','VELINGARA_BONCONTO','VELINGARA_KOUNKANE','VELINGARA_PAKOUR',
+                    'RANEROU FERLO_VELINGARA','RANEROU_COMMUNE','SEMME_COMMUNE','WAOUNDE_COMMUNE'])
                 ->count();
 
-            $sibassor = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
+            $saintLouis = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['SIBASSOR'])
+                ->whereIn('communes.libelle', ['SAINT LOUIS','SAINT LOUIS_NGALLELE','SAINT LOUIS_RAO','DAGANA','DAGANA_ROSS BETHIO','DAGANA_MBANE','NDIOUM_COMMUNE','PODOR','PODOR_SALDE',
+                    'PODOR_GAMADJI SARRE','PODOR_CAS CAS','PODOR_THILLE BOUBACAR','POSTE ROSS BETHIO','POSTE SAINT LOUIS SOR','RICHARD TOLL',''])
                 ->count();
-            $posteDakarRp = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
+            $sedhiou = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['POSTE DAKAR-RP'])
+                ->whereIn('communes.libelle', ['SEDHIOU','SEDHIOU_BOUNKILING','SEDHIOU_DIATTACOUNDA','SEDHIOU_TANAFF','SEDHIOU_DIENDE','SEDHIOU_DJIBABOUYA',
+                    'GOUDOMP_COMMUNE','MARSASSOUM_COMMUNE'])
                 ->count();
-            $kayar = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
+            $tambacounda = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['KAYAR'])
+                ->whereIn('communes.libelle', ['BAKEL_COMMUNE', 'BAKEL_KIDIRA', 'BAKEL_DIAWARA', 'BAKEL_MOUDERY', 'BAKEL_GOUDIRY','BAKEL_BALA', 'BAKEL_KENIEBA',
+                    'TAMBACOUNDA', 'TAMBACOUNDA_KOUMPENTOUM', 'TAMBACOUNDA_MISSIRAH', 'TAMBACOUNDA_KOUSSANAR','TAMBACOUNDA_MAKACOULIBANTANG',
+                    'POSTE TAMBACOUNDA'])
                 ->count();
-            $tivaouane = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
+            $thies = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['TIVAOUANE'])
+                ->whereIn('communes.libelle', ['THIES','THIES_TIENABA','THIES_PIRE','THIES_KEUR MOUSSA','THIES_NOTTO','MEKHE', 'KAYAR','TIVAOUANE',
+                    'TIVAOUANE_MERINA DAKHAR','TIVAOUANE_MEOUANE', 'TIVAOUANE_PAMBAL','TIVAOUANE_PEULH','TIVAOUANE_MEKHE','TIVAOUANE_NIAKHENE', 'POUT',
+                    'JOAL-FADIOUTH_COMMUNE','POSTE JOAL','POSTE MBOUR VILLE','POSTE NGAPAROU','MBOUR','MBOUR_SINDIA','MBOUR_SESSENE','MBOUR_FISSEL','KHOMBOLE','MBORO','NGUEKHOKH_COMMUNE',
+                    'POSTE POPENGUINE','POSTE POPONGUINE','POSTE SALY','POSTE THIES ESCALE','THIADIAYE_COMMUNE'])
                 ->count();
-            $guediawaye = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
+
+            $ziguinchor = Client::join('client_commune as cc1', 'clients.id', '=', 'cc1.client_id')
                 ->join('communes', 'cc1.commune_id', '=', 'communes.id')
-                ->where('communes.libelle', ['GUEDIAWAYE'])
-                ->count();*/
+                ->whereIn('communes.libelle', ['ZIGUINCHOR','ZIGUINCHOR_NIASSIA','ZIGUINCHOR_NIAGUIS','',
+                    'BIGNONA_COMMUNE','BIGNONA_SINDIAN','BIGNONA_DIOULOULOU','BIGNONA_TENDOUCK','BIGNONA_TENGHORY','THIONCK ESSYL',
+                    'OUSSOUYE','OUSSOUYE_KABROUSSE','OUSSOUYE_LOUDIA OUOLOFF','POSTE CABROUSSE'])
+                ->count();
+
 
 
             return [Commune::with(['clients'])->orderBy('created_at', 'desc')->paginate(10),
                 'diourbel' => $diourbel, 'kaolack' => $kaolack, 'dakar' => $dakar, 'fatick' => $fatick,
-                'kaffrine' => $kaffrine,'kolda' => $kolda, 'saint-louis' => $saintLouis
+                'kaffrine' => $kaffrine,'kédougou' => $kedougou,'kolda' => $kolda, 'louga' =>$louga,'matam'=>$matam,
+                'saint-louis' => $saintLouis, 'sédhiou'=> $sedhiou, 'tambacounda' =>$tambacounda, 'thiès' =>$thies,
+                'ziguinchor' =>$ziguinchor,
             ];
         });
 

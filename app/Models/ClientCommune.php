@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ClientCommune extends Model
 {
-    protected $table = 'client_commune';
+    //protected $table = 'client_commune';
 
     use HasFactory;
     protected $guarded=[];
